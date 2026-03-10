@@ -1,4 +1,4 @@
-#### Fintech Wallet System
+# Fintech Wallet System
 
 ## Description
 
