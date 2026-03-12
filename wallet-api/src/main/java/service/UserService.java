@@ -37,10 +37,11 @@ public class UserService {
         User savedUser = userRepository.save(newUser);
 
         // 5. Mapping Entity -> DTO
-        return new UserFetchDTO(savedUser.getId(),
-                                savedUser.getUserName(),
-                                savedUser.getEmail(),
-                                savedUser.getCreatedAt()
-                                );
+        return new UserFetchDTO(
+                savedUser.getId(),
+                savedUser.getUserName(),
+                savedUser.getEmail(),
+                savedUser.getCreatedAt()
+        );
     }
 }

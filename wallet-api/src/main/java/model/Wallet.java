@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -12,10 +11,14 @@ import java.util.UUID;
 public class Wallet {
 
     // Primary key
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID userId; // Foreign key
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
@@ -34,8 +37,8 @@ public class Wallet {
 
     }
 
-    public Wallet(UUID userId, BigDecimal balance, String currency){
-        this.userId = userId;
+    public Wallet(User user, BigDecimal balance, String currency){
+        this.user = user;
         this.balance = balance;
         this.currency = currency;
     }
@@ -43,8 +46,8 @@ public class Wallet {
     // ID
     public UUID getID(){ return id; }
 
-    // userId
-    public UUID getUserId(){ return userId; }
+    public User getUser(){ return user; }
+    public void setUser(User user){ this.user = user; }
 
     // Balance
     public BigDecimal getBalance(){ return balance; }

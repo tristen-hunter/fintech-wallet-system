@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +18,9 @@ public class User {
     @GeneratedValue
     @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Wallet> wallets = new ArrayList<>();
 
     @Column(nullable = false)
     private String userName;

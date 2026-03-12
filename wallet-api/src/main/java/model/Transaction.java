@@ -10,13 +10,18 @@ import java.util.UUID;
 @Table(name = "transactions")
 public class Transaction {
 
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID senderWalletId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_wallet_id", nullable = false)
+    private Wallet senderWallet;
 
-    @Column(nullable = false)
-    private UUID receiverWalletId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_wallet_id", nullable = false)
+    private Wallet receiverWallet;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
@@ -38,9 +43,9 @@ public class Transaction {
 
     }
 
-    public Transaction(UUID senderWalletId, UUID receiverWalletId, BigDecimal amount) {
-        this.senderWalletId = senderWalletId;
-        this.receiverWalletId = receiverWalletId;
+    public Transaction(Wallet senderWalletId, Wallet receiverWalletId, BigDecimal amount) {
+        this.senderWallet = senderWallet;
+        this.receiverWallet = receiverWallet;
         this.amount = amount;
         this.status = TransactionStatus.PENDING;
     }
@@ -49,51 +54,37 @@ public class Transaction {
     public UUID getId() {
         return id;
     }
-
     public void setId(UUID id) {
         this.id = id;
     }
 
-
     // Sender Wallet
-    public UUID getSenderWalletId() {
-        return senderWalletId;
+    public Wallet getSenderWalletId() {
+        return senderWallet;
     }
-
-    public void setSenderWalletId(UUID senderWalletId) {
-        this.senderWalletId = senderWalletId;
-    }
-
+    public void setSenderWalletId(Wallet senderWallet) { this.senderWallet = senderWallet; }
 
     // Receiver Wallet
-    public UUID getReceiverWalletId() {
-        return receiverWalletId;
+    public Wallet getReceiverWalletId() { return receiverWallet; }
+    public void setReceiverWalletId(Wallet receiverWallet) {
+        this.receiverWallet = receiverWallet;
     }
-
-    public void setReceiverWalletId(UUID receiverWalletId) {
-        this.receiverWalletId = receiverWalletId;
-    }
-
 
     // Amount
     public BigDecimal getAmount() {
         return amount;
     }
-
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-
 
     // Status
     public TransactionStatus getStatus() {
         return status;
     }
-
     public void setStatus(TransactionStatus status) {
         this.status = status;
     }
-
 
     // Created Timestamp
     public LocalDateTime getCreatedAt() {
