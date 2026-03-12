@@ -3,6 +3,8 @@ package repo;
 import model.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WalletRepository extends JpaRepository<Wallet, Long> {
+import java.util.UUID;
+
+public interface WalletRepository extends JpaRepository<Wallet, UUID> {
 
 }

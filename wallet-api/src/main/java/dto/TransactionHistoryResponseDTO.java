@@ -2,11 +2,12 @@ package dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class TransactionHistoryResponseDTO {
-    private Long id;
-    private Long senderWalletId;
-    private Long receiverWalletId;
+    private UUID id;
+    private UUID senderWalletId;
+    private UUID receiverWalletId;
     private BigDecimal amount;
     private String status;
     private LocalDateTime timestamp;
@@ -15,8 +16,8 @@ public class TransactionHistoryResponseDTO {
     public TransactionHistoryResponseDTO() {}
 
     // Manual All-Args Constructor (Used by your Service/Mapper)
-    public TransactionHistoryResponseDTO(Long id, Long senderWalletId, Long receiverWalletId,
-                                      BigDecimal amount, String status, LocalDateTime timestamp) {
+    public TransactionHistoryResponseDTO(UUID id, UUID senderWalletId, UUID receiverWalletId,
+                                         BigDecimal amount, String status, LocalDateTime timestamp) {
         this.id = id;
         this.senderWalletId = senderWalletId;
         this.receiverWalletId = receiverWalletId;
@@ -26,17 +27,17 @@ public class TransactionHistoryResponseDTO {
     }
 
     // --- Manual Getters ---
-    public Long getId() { return id; }
-    public Long getSenderWalletId() { return senderWalletId; }
-    public Long getReceiverWalletId() { return receiverWalletId; }
+    public UUID getId() { return id; }
+    public UUID getSenderWalletId() { return senderWalletId; }
+    public UUID getReceiverWalletId() { return receiverWalletId; }
     public BigDecimal getAmount() { return amount; }
     public String getStatus() { return status; }
     public LocalDateTime getTimestamp() { return timestamp; }
 
     // --- Manual Setters ---
-    public void setId(Long id) { this.id = id; }
-    public void setSenderWalletId(Long senderWalletId) { this.senderWalletId = senderWalletId; }
-    public void setReceiverWalletId(Long receiverWalletId) { this.receiverWalletId = receiverWalletId; }
+    public void setId(UUID id) { this.id = id; }
+    public void setSenderWalletId(UUID senderWalletId) { this.senderWalletId = senderWalletId; }
+    public void setReceiverWalletId(UUID receiverWalletId) { this.receiverWalletId = receiverWalletId; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
     public void setStatus(String status) { this.status = status; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }

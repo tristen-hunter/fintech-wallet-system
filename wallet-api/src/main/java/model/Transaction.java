@@ -4,20 +4,19 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
 public class Transaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private UUID id;
 
     @Column(nullable = false)
-    private Long senderWalletId;
+    private UUID senderWalletId;
 
     @Column(nullable = false)
-    private  Long receiverWalletId;
+    private UUID receiverWalletId;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
@@ -39,7 +38,7 @@ public class Transaction {
 
     }
 
-    public Transaction(Long senderWalletId, Long receiverWalletId, BigDecimal amount) {
+    public Transaction(UUID senderWalletId, UUID receiverWalletId, BigDecimal amount) {
         this.senderWalletId = senderWalletId;
         this.receiverWalletId = receiverWalletId;
         this.amount = amount;
@@ -47,31 +46,31 @@ public class Transaction {
     }
 
     // ID
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
 
     // Sender Wallet
-    public Long getSenderWalletId() {
+    public UUID getSenderWalletId() {
         return senderWalletId;
     }
 
-    public void setSenderWalletId(Long senderWalletId) {
+    public void setSenderWalletId(UUID senderWalletId) {
         this.senderWalletId = senderWalletId;
     }
 
 
     // Receiver Wallet
-    public Long getReceiverWalletId() {
+    public UUID getReceiverWalletId() {
         return receiverWalletId;
     }
 
-    public void setReceiverWalletId(Long receiverWalletId) {
+    public void setReceiverWalletId(UUID receiverWalletId) {
         this.receiverWalletId = receiverWalletId;
     }
 

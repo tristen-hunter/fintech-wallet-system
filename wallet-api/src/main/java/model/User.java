@@ -5,6 +5,7 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="users")
@@ -12,8 +13,9 @@ public class User {
 
     // Object Variables
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // use PostgreSQL to create
+    @GeneratedValue
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
     private String userName;
@@ -44,7 +46,7 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public Long getId(){ return id; }
+    public UUID getId(){ return id; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 

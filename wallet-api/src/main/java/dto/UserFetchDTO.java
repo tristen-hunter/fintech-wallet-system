@@ -1,15 +1,16 @@
 package dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 ///  Used for returning a Users profile info (read only)
 public class UserFetchDTO {
-    private final Long id;
+    private final UUID id;
     private final String userName;
     private final String email;
     private final LocalDateTime createdAt;
 
-    public UserFetchDTO(Long id, String userName, String email, LocalDateTime createdAt){
+    public UserFetchDTO(UUID id, String userName, String email, LocalDateTime createdAt){
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -17,7 +18,7 @@ public class UserFetchDTO {
     }
 
     // Getters
-    public Long getId(){ return id; }
+    public UUID getId(){ return id; }
     public String getUserName(){ return userName; }
     public String getEmail(){ return email; }
     public LocalDateTime getCreatedAt(){ return createdAt; }
