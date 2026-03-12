@@ -43,7 +43,7 @@ public class Transaction {
 
     }
 
-    public Transaction(Wallet senderWalletId, Wallet receiverWalletId, BigDecimal amount) {
+    public Transaction(Wallet senderWallet, Wallet receiverWallet, BigDecimal amount) {
         this.senderWallet = senderWallet;
         this.receiverWallet = receiverWallet;
         this.amount = amount;
@@ -59,14 +59,14 @@ public class Transaction {
     }
 
     // Sender Wallet
-    public Wallet getSenderWalletId() {
+    public Wallet getSenderWallet() {
         return senderWallet;
     }
-    public void setSenderWalletId(Wallet senderWallet) { this.senderWallet = senderWallet; }
+    public void setSenderWallet(Wallet senderWallet) { this.senderWallet = senderWallet; }
 
     // Receiver Wallet
-    public Wallet getReceiverWalletId() { return receiverWallet; }
-    public void setReceiverWalletId(Wallet receiverWallet) {
+    public Wallet getReceiverWallet() { return receiverWallet; }
+    public void setReceiverWallet(Wallet receiverWallet) {
         this.receiverWallet = receiverWallet;
     }
 

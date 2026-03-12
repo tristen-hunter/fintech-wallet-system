@@ -1,5 +1,7 @@
 package dto;
 
+import org.springframework.transaction.TransactionStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,7 +11,7 @@ public class TransactionResponseDTO {
     private UUID senderWalletId;
     private UUID receiverWalletId;
     private BigDecimal amount;
-    private String status;
+    private model.TransactionStatus status;
     private LocalDateTime timestamp;
 
     // Default constructor for JSON mapping
@@ -17,7 +19,7 @@ public class TransactionResponseDTO {
 
     // Full constructor - Used by your Service/Mapper to transform the Entity into this DTO
     public TransactionResponseDTO(UUID id, UUID senderWalletId, UUID receiverWalletId,
-                                  BigDecimal amount, String status, LocalDateTime timestamp) {
+                                  BigDecimal amount, model.TransactionStatus status, LocalDateTime timestamp) {
         this.id = id;
         this.senderWalletId = senderWalletId;
         this.receiverWalletId = receiverWalletId;
@@ -31,7 +33,7 @@ public class TransactionResponseDTO {
     public UUID getSenderWalletId() { return senderWalletId; }
     public UUID getReceiverWalletId() { return receiverWalletId; }
     public BigDecimal getAmount() { return amount; }
-    public String getStatus() { return status; }
+    public model.TransactionStatus getStatus() { return status; }
     public LocalDateTime getTimestamp() { return timestamp; }
 
     // --- Setters ---
@@ -39,6 +41,6 @@ public class TransactionResponseDTO {
     public void setSenderWalletId(UUID senderWalletId) { this.senderWalletId = senderWalletId; }
     public void setReceiverWalletId(UUID receiverWalletId) { this.receiverWalletId = receiverWalletId; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
-    public void setStatus(String status) { this.status = status; }
+    public void setStatus(model.TransactionStatus status) { this.status = status; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 }

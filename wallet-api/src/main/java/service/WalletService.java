@@ -11,19 +11,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class WalletService {
-//    It should handle:
-//    - Create wallet
-//    - Get wallet by ID
-//    - Get all wallets for a user
-//    - Check wallet balance
-//
-//    DTOs used
-//    - CreateWalletRequest
-//    - WalletResponse
-//    - WalletBalanceResponse
-
-    private WalletRepository walletRepo;
-    private UserRepository userRepo;
+    private final WalletRepository walletRepo;
+    private final UserRepository userRepo;
 
     public WalletService(WalletRepository walletRepo, UserRepository userRepo){
         this.walletRepo = walletRepo;

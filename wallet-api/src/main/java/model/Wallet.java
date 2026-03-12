@@ -1,6 +1,7 @@
 package model;
 
 import jakarta.persistence.*;
+import org.hibernate.mapping.List;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class Wallet {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
 
     // create a date and time at the exact moment the entity is created
     @PrePersist
