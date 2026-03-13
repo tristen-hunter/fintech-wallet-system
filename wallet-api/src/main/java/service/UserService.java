@@ -3,10 +3,13 @@ package service;
 import dto.UserCreateDTO;
 import dto.UserFetchDTO;
 import model.User;
+import model.Wallet;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import repo.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -31,7 +34,7 @@ public class UserService {
         newUser.setEmail(newUserDTO.getEmail());
 
         // 3. Hash password (salted, one-way)
-        newUserDTO.setPassword(passwordEncoder.encode(newUserDTO.getPassword()));
+        newUser.setPasswordHash(passwordEncoder.encode(newUserDTO.getPassword()));
 
         // 4. Pass the User entity to the Repo and return it
         User savedUser = userRepository.save(newUser);
