@@ -1,4 +1,4 @@
-package model;
+package dev.hunter.tristen.wallet_api.model;
 
 public enum TransactionStatus {
 

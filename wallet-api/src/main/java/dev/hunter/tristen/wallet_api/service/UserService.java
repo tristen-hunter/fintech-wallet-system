@@ -1,15 +1,14 @@
-package service;
+package dev.hunter.tristen.wallet_api.service;
 
-import dto.UserCreateDTO;
-import dto.UserFetchDTO;
-import model.User;
-import model.Wallet;
+import dev.hunter.tristen.wallet_api.dto.UserCreateDTO;
+import dev.hunter.tristen.wallet_api.dto.UserFetchDTO;
+import dev.hunter.tristen.wallet_api.model.User;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import repo.UserRepository;
+import dev.hunter.tristen.wallet_api.repo.UserRepository;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -22,6 +21,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Create a new user and store them in the DB
     public UserFetchDTO createUser(@NonNull UserCreateDTO newUserDTO){
         // 1. Validate email doesn't exist
         if (userRepository.existsByEmail(newUserDTO.getEmail())){
@@ -45,6 +45,19 @@ public class UserService {
                 savedUser.getUserName(),
                 savedUser.getEmail(),
                 savedUser.getCreatedAt()
+        );
+    }
+
+    // Fetch a user by their ID
+    public UserFetchDTO getUserById(UUID id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User Not Found :("));
+
+        return new UserFetchDTO(
+                user.getId(),
+                user.getUserName(),
+                user.getEmail(),
+                user.getCreatedAt()
         );
     }
 }

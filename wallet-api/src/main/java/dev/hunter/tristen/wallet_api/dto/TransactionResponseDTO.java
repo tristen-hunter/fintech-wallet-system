@@ -1,6 +1,6 @@
-package dto;
+package dev.hunter.tristen.wallet_api.dto;
 
-import org.springframework.transaction.TransactionStatus;
+import dev.hunter.tristen.wallet_api.model.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ public class TransactionResponseDTO {
     private UUID senderWalletId;
     private UUID receiverWalletId;
     private BigDecimal amount;
-    private model.TransactionStatus status;
+    private TransactionStatus status;
     private LocalDateTime timestamp;
 
     // Default constructor for JSON mapping
@@ -19,7 +19,7 @@ public class TransactionResponseDTO {
 
     // Full constructor - Used by your Service/Mapper to transform the Entity into this DTO
     public TransactionResponseDTO(UUID id, UUID senderWalletId, UUID receiverWalletId,
-                                  BigDecimal amount, model.TransactionStatus status, LocalDateTime timestamp) {
+                                  BigDecimal amount, TransactionStatus status, LocalDateTime timestamp) {
         this.id = id;
         this.senderWalletId = senderWalletId;
         this.receiverWalletId = receiverWalletId;
@@ -33,7 +33,7 @@ public class TransactionResponseDTO {
     public UUID getSenderWalletId() { return senderWalletId; }
     public UUID getReceiverWalletId() { return receiverWalletId; }
     public BigDecimal getAmount() { return amount; }
-    public model.TransactionStatus getStatus() { return status; }
+    public TransactionStatus getStatus() { return status; }
     public LocalDateTime getTimestamp() { return timestamp; }
 
     // --- Setters ---
@@ -41,6 +41,6 @@ public class TransactionResponseDTO {
     public void setSenderWalletId(UUID senderWalletId) { this.senderWalletId = senderWalletId; }
     public void setReceiverWalletId(UUID receiverWalletId) { this.receiverWalletId = receiverWalletId; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
-    public void setStatus(model.TransactionStatus status) { this.status = status; }
+    public void setStatus(TransactionStatus status) { this.status = status; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 }

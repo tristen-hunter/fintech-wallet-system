@@ -1,11 +1,9 @@
-package model;
+package dev.hunter.tristen.wallet_api.model;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +52,7 @@ public class User {
     public UUID getId(){ return id; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt){ this.createdAt = createdAt; }
 
     // Username (getters and setters)
     public String getUserName(){ return userName; }

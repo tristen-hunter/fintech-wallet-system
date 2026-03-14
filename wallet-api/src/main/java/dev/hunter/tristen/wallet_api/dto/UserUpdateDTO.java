@@ -1,4 +1,4 @@
-package dto;
+package dev.hunter.tristen.wallet_api.dto;
 
 import jakarta.validation.constraints.Size;
 

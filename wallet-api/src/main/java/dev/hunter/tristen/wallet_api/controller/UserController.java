@@ -1,10 +1,12 @@
-package controller;
+package dev.hunter.tristen.wallet_api.controller;
 
-import dto.UserCreateDTO;
-import dto.UserFetchDTO;
+import dev.hunter.tristen.wallet_api.dto.UserCreateDTO;
+import dev.hunter.tristen.wallet_api.dto.UserFetchDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import service.UserService;
+import dev.hunter.tristen.wallet_api.service.UserService;
+
+import java.util.UUID;
 
 
 @RestController
@@ -25,6 +27,12 @@ public class UserController {
     public UserFetchDTO addUser(@RequestBody UserCreateDTO newUserDTO){
         return userService.createUser(newUserDTO);
     }
+
+    @GetMapping("/{id}")
+    public UserFetchDTO getUserById(@PathVariable UUID id){
+        return userService.getUserById(id);
+    }
+
 
 }
 

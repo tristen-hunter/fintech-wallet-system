@@ -1,4 +1,4 @@
-package model;
+package dev.hunter.tristen.wallet_api.model;
 
 import jakarta.persistence.*;
 
@@ -28,7 +28,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private model.TransactionStatus status;
+    private TransactionStatus status;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime timestamp;

@@ -1,7 +1,8 @@
-package model;
+package dev.hunter.tristen.wallet_api.model;
 
 import jakarta.persistence.*;
-import org.hibernate.mapping.List;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +32,14 @@ public class Wallet {
     private LocalDateTime createdAt;
 
 
+    // Relationships with Transactions
+    @OneToMany(mappedBy = "senderWallet")
+    private List<Transaction> sentTransactions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiverWallet")
+    private List<Transaction> receivedTransactions = new ArrayList<>();
+
+
     // create a date and time at the exact moment the entity is created
     @PrePersist
     protected void onCreate() { createdAt = LocalDateTime.now(); }
@@ -46,7 +55,7 @@ public class Wallet {
     }
 
     // ID
-    public UUID getID(){ return id; }
+    public UUID getId(){ return id; }
 
     public User getUser(){ return user; }
     public void setUser(User user){ this.user = user; }
@@ -65,5 +74,15 @@ public class Wallet {
 
     // Created At
     public LocalDateTime getCreatedAt(){ return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt){ this.createdAt = createdAt; }
+
+
+    // Getters for Transactions
+    public List<Transaction> getSentTransactions() {
+        return sentTransactions;
+    }
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
 
 }
