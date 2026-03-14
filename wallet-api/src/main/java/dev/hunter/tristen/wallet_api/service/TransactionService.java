@@ -2,6 +2,7 @@ package dev.hunter.tristen.wallet_api.service;
 
 import dev.hunter.tristen.wallet_api.dto.TransactionRequestDTO;
 import dev.hunter.tristen.wallet_api.dto.TransactionResponseDTO;
+import dev.hunter.tristen.wallet_api.model.TransactionStatus;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import dev.hunter.tristen.wallet_api.model.Wallet;
@@ -10,7 +11,9 @@ import org.jspecify.annotations.NonNull;
 import dev.hunter.tristen.wallet_api.repo.TransactionRepository;
 import dev.hunter.tristen.wallet_api.repo.WalletRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +45,28 @@ public class TransactionService {
                 newTransactionDTO.getAmount()
         );
 
-        // 3. Save to the DB
+        // 3. Validate Balance
+        if (sender.getBalance().compareTo(newTransaction.getAmount()) < 0){
+            newTransaction.setStatus(TransactionStatus.FAILED);
+            throw new RuntimeException("Balance too low :(");
+        } else if (newTransaction.getAmount().compareTo(BigDecimal.valueOf(0)) <= 0){
+            newTransaction.setStatus(TransactionStatus.FAILED);
+            throw new RuntimeException("Transaction Amount Cannot be Negative oe Zero");
+        }
+
+        // 4. Change wallet Balances (Calculate, set, save)
+        BigDecimal newSenderBalance = sender.getBalance().subtract(newTransaction.getAmount());
+        sender.setBalance(newSenderBalance);
+        walletRepo.save(sender);
+
+        BigDecimal newReceiverBalance = receiver.getBalance().add(newTransaction.getAmount());
+        receiver.setBalance(newReceiverBalance);
+        walletRepo.save(receiver);
+
+        // 5. Set Status
+        newTransaction.setStatus(TransactionStatus.COMPLETED);
+
+        // 6. Save to the DB
         Transaction savedTransaction = transactionRepo.save(newTransaction);
 
         return new TransactionResponseDTO(
@@ -54,6 +78,7 @@ public class TransactionService {
                 savedTransaction.getCreatedAt()
         );
     }
+
 
     // For Finding a specific transaction by Id
     public TransactionResponseDTO getTransactionById(UUID transactionId){
@@ -84,4 +109,6 @@ public class TransactionService {
                 ))
                 .toList();
     }
+
+    //
 }
