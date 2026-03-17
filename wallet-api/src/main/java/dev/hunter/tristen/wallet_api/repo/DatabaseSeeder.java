@@ -1,11 +1,12 @@
-package dev.hunter.tristen.wallet_api.repo; // Ensure this matches your project!
+package dev.hunter.tristen.wallet_api.repo;
 
- // Import your models
 import dev.hunter.tristen.wallet_api.model.Transaction;
-import dev.hunter.tristen.wallet_api.model.User;
+import dev.hunter.tristen.wallet_api.model.Users;
 import dev.hunter.tristen.wallet_api.model.Wallet;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,45 +17,94 @@ public class DatabaseSeeder implements CommandLineRunner {
     private final UserRepository userRepo;
     private final WalletRepository walletRepo;
     private final TransactionRepository transRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public DatabaseSeeder(UserRepository userRepo, WalletRepository walletRepo, TransactionRepository transRepo) {
+    public DatabaseSeeder(UserRepository userRepo,
+                          WalletRepository walletRepo,
+                          TransactionRepository transRepo,
+                          PasswordEncoder passwordEncoder) {
+
         this.userRepo = userRepo;
         this.walletRepo = walletRepo;
         this.transRepo = transRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        if (userRepo.count() == 0) {
-            // 1. Create Users
-            User tristen = new User();
-            tristen.setUserName("Tristen");
-            tristen.setEmail("tristen@huntermedia.com");
-            tristen.setCreatedAt(LocalDateTime.now());
+    public void run(String... args) {
 
-            User sarah = new User();
-            sarah.setUserName("Sarah J");
-            sarah.setEmail("sarah@example.com");
-            sarah.setCreatedAt(LocalDateTime.now());
-
-            userRepo.saveAll(List.of(tristen, sarah));
-
-            // 2. Create Wallets
-            Wallet tWalletZar = new Wallet(tristen, new BigDecimal("5000.00"), "ZAR");
-            tWalletZar.setCreatedAt(LocalDateTime.now());
-
-            Wallet sWalletZar = new Wallet(sarah, new BigDecimal("12000.00"), "ZAR");
-            sWalletZar.setCreatedAt(LocalDateTime.now());
-
-            walletRepo.saveAll(List.of(tWalletZar, sWalletZar));
-
-            // 3. Create a Transaction
-            Transaction t1 = new Transaction(tWalletZar, sWalletZar, new BigDecimal("250.00"));
-            // Note: If you have a @PrePersist in Transaction for timestamp,
-            // you don't need to set it manually here.
-            transRepo.save(t1);
-
-            System.out.println(">> Wallet Database seeded with Users, Wallets, and Transactions!");
+        if (userRepo.count() > 0) {
+            return;
         }
+
+        System.out.println("Seeding wallet database...");
+
+        // ---------------------
+        // 1️⃣ Create Users
+        // ---------------------
+
+        Users tristen = new Users();
+        tristen.setUserName("Tristen");
+        tristen.setEmail("tristen@huntermedia.com");
+        tristen.setPasswordHash(passwordEncoder.encode("password123"));
+        tristen.setCreatedAt(LocalDateTime.now());
+
+        Users sarah = new Users();
+        sarah.setUserName("Sarah J");
+        sarah.setEmail("sarah@example.com");
+        sarah.setPasswordHash(passwordEncoder.encode("password123"));
+        sarah.setCreatedAt(LocalDateTime.now());
+
+        userRepo.saveAll(List.of(tristen, sarah));
+
+        // ---------------------
+        // 2️⃣ Create Wallets
+        // ---------------------
+
+        // Tristen has TWO wallets
+        Wallet tristenZarWallet = new Wallet(tristen, new BigDecimal("5000.00"), "ZAR");
+        tristenZarWallet.setCreatedAt(LocalDateTime.now());
+
+        Wallet tristenUsdWallet = new Wallet(tristen, new BigDecimal("1500.00"), "USD");
+        tristenUsdWallet.setCreatedAt(LocalDateTime.now());
+
+        // Sarah has ONE wallet
+        Wallet sarahZarWallet = new Wallet(sarah, new BigDecimal("12000.00"), "ZAR");
+        sarahZarWallet.setCreatedAt(LocalDateTime.now());
+
+        walletRepo.saveAll(List.of(tristenZarWallet, tristenUsdWallet, sarahZarWallet));
+
+        // ---------------------
+        // 3️⃣ Create Transactions
+        // ---------------------
+
+        Transaction t1 = new Transaction(
+                tristenZarWallet,
+                sarahZarWallet,
+                new BigDecimal("250.00")
+        );
+
+        Transaction t2 = new Transaction(
+                sarahZarWallet,
+                tristenUsdWallet,
+                new BigDecimal("100.00")
+        );
+
+        Transaction t3 = new Transaction(
+                tristenUsdWallet,
+                tristenZarWallet,
+                new BigDecimal("50.00")
+        );
+
+        transRepo.saveAll(List.of(t1, t2, t3));
+
+        // ---------------------
+        // Dev login credentials
+        // ---------------------
+
+        System.out.println("Database seeded successfully!");
+        System.out.println("Test login:");
+        System.out.println("Email: tristen@huntermedia.com");
+        System.out.println("Password: password123");
     }
 }

@@ -20,7 +20,7 @@ public class Wallet {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
@@ -48,7 +48,7 @@ public class Wallet {
 
     }
 
-    public Wallet(User user, BigDecimal balance, String currency){
+    public Wallet(Users user, BigDecimal balance, String currency){
         this.user = user;
         this.balance = balance;
         this.currency = currency;
@@ -57,8 +57,8 @@ public class Wallet {
     // ID
     public UUID getId(){ return id; }
 
-    public User getUser(){ return user; }
-    public void setUser(User user){ this.user = user; }
+    public Users getUser(){ return user; }
+    public void setUser(Users user){ this.user = user; }
 
     // Balance
     public BigDecimal getBalance(){ return balance; }

@@ -2,7 +2,7 @@ package dev.hunter.tristen.wallet_api.service;
 
 import dev.hunter.tristen.wallet_api.dto.WalletCreateDTO;
 import dev.hunter.tristen.wallet_api.dto.WalletResponseDTO;
-import dev.hunter.tristen.wallet_api.model.User;
+import dev.hunter.tristen.wallet_api.model.Users;
 import dev.hunter.tristen.wallet_api.model.Wallet;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class WalletService {
 
     public WalletResponseDTO createWallet(@NonNull WalletCreateDTO newWalletDTO){
         // 1. Fetch user
-        User user = userRepo.findById(newWalletDTO.getUserId())
+        Users user = userRepo.findById(newWalletDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User ID Does Not Exist!"));
 
         // 2. Create Wallet Object

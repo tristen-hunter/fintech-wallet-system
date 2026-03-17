@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="users")
-public class User {
+public class Users {
 
     // Object Variables
     @Id
@@ -38,12 +38,12 @@ public class User {
     }
 
     // Constructor for JPA
-    public User(){
+    public Users(){
 
     }
 
     // Constructor to create users
-    public User(String userName, String email, String passwordHash){
+    public Users(String userName, String email, String passwordHash){
         this.userName = userName;
         this.email = email;
         this.passwordHash = passwordHash;

@@ -2,7 +2,8 @@ package dev.hunter.tristen.wallet_api.service;
 
 import dev.hunter.tristen.wallet_api.dto.UserCreateDTO;
 import dev.hunter.tristen.wallet_api.dto.UserFetchDTO;
-import dev.hunter.tristen.wallet_api.model.User;
+import dev.hunter.tristen.wallet_api.model.Users;
+import jakarta.transaction.Transactional;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import dev.hunter.tristen.wallet_api.repo.UserRepository;
 
 import java.util.UUID;
 
+@Transactional
 @Service
 public class UserService {
 
@@ -29,7 +31,7 @@ public class UserService {
         }
 
         // 2. Create the User object and set its info equal to the DTO
-        User newUser = new User();
+        Users newUser = new Users();
         newUser.setUserName(newUserDTO.getUserName());
         newUser.setEmail(newUserDTO.getEmail());
 
@@ -37,7 +39,7 @@ public class UserService {
         newUser.setPasswordHash(passwordEncoder.encode(newUserDTO.getPassword()));
 
         // 4. Pass the User entity to the Repo and return it
-        User savedUser = userRepository.save(newUser);
+        Users savedUser = userRepository.save(newUser);
 
         // 5. Mapping Entity -> DTO
         return new UserFetchDTO(
@@ -50,8 +52,8 @@ public class UserService {
 
     // Fetch a user by their ID
     public UserFetchDTO getUserById(UUID id){
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User Not Found :("));
+        Users user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));;
 
         return new UserFetchDTO(
                 user.getId(),
