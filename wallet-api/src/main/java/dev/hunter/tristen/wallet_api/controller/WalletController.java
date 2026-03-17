@@ -14,22 +14,27 @@ public class WalletController {
 
     private final WalletService walletService;
 
+    // Constructor - injecting the WalletService Layer
     public WalletController(WalletService walletService){
         this.walletService = walletService;
     }
 
+    // [ADMIN] Get all wallets for a certain user
+    @GetMapping("/{userId}")
+    public List<WalletResponseDTO> getWallets(){
+        return walletService.getWallets();
+    }
+
+
+    // [USER] - for a user to create a new wallet
     @PostMapping
     public WalletResponseDTO addWallet(@RequestBody WalletCreateDTO newWalletDTO){
         return walletService.createWallet(newWalletDTO);
     }
 
-    // Get all wallets for a certain user
-    @GetMapping
-    public List<WalletResponseDTO> getWallets(){
-        return walletService.getWallets();
-    }
+    // [USER] View all a users wallets
 
-    // Get a certain wallet
+    // [USER] Get a certain wallets attributes (usually owned by a user)
     @GetMapping("/{walletId}")
     public WalletResponseDTO getWalletById(@PathVariable UUID walletId){
         return walletService.getWalletById(walletId);

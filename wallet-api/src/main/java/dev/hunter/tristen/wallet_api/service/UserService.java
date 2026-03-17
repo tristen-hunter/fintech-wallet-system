@@ -23,7 +23,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Create a new user and store them in the DB
+    // [USER] Create a new user and store them in the DB
     public UserFetchDTO createUser(@NonNull UserCreateDTO newUserDTO){
         // 1. Validate email doesn't exist
         if (userRepository.existsByEmail(newUserDTO.getEmail())){
@@ -50,7 +50,7 @@ public class UserService {
         );
     }
 
-    // Fetch a user by their ID
+    // [SYSTEM] Fetch a user by their ID - for populating a users profile after login
     public UserFetchDTO getUserById(UUID id){
         Users user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));;

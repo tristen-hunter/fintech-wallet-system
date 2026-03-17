@@ -49,6 +49,7 @@ public class Users {
         this.passwordHash = passwordHash;
     }
 
+
     public UUID getId(){ return id; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }

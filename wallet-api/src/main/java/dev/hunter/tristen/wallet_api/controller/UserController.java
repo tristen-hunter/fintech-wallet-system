@@ -21,13 +21,14 @@ public class UserController {
     }
 
     // POST api/users
-    // Adds a new user through the service layer
+    // [USER] Adds a new user through the service layer
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserFetchDTO addUser(@RequestBody UserCreateDTO newUserDTO){
         return userService.createUser(newUserDTO);
     }
 
+    // [SYSTEM] This is how a users profile is populated - their username is matched to their ID and the info is returned here
     @GetMapping("/{id}")
     public UserFetchDTO getUserById(@PathVariable UUID id){
         return userService.getUserById(id);

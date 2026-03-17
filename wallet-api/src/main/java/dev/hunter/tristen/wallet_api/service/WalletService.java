@@ -23,6 +23,24 @@ public class WalletService {
         this.userRepo = userRepo;
     }
 
+    // [ADMIN] Return all Wallets from the DB
+    public List<WalletResponseDTO> getWallets(){
+
+        return walletRepo.findAll()
+                .stream()
+                .map(wallet -> new WalletResponseDTO(
+                        wallet.getId(),
+                        wallet.getUser().getId(),
+                        wallet.getBalance(),
+                        wallet.getCurrency(),
+                        wallet.getCreatedAt()
+                ))
+                .toList();
+    }
+
+
+
+    // [USER] for a user to create a new wallet
     public WalletResponseDTO createWallet(@NonNull WalletCreateDTO newWalletDTO){
         // 1. Fetch user
         Users user = userRepo.findById(newWalletDTO.getUserId())
@@ -47,22 +65,10 @@ public class WalletService {
                 savedWallet.getCreatedAt()
         );
     }
-    // Return all Wallets associated with a users ID
-    public List<WalletResponseDTO> getWallets(){
 
-        return walletRepo.findAll()
-                .stream()
-                .map(wallet -> new WalletResponseDTO(
-                        wallet.getId(),
-                        wallet.getUser().getId(),
-                        wallet.getBalance(),
-                        wallet.getCurrency(),
-                        wallet.getCreatedAt()
-                ))
-                .toList();
-    }
+    // [USER] get all a users wallets and display them in a list of cards
 
-    // Return a wallet by an ID (path variable)
+    // [USER] Return a wallet by an ID (path variable) - for a user to view a specific wallets attributes
     public WalletResponseDTO getWalletById(UUID walletId){
         Wallet wallet = walletRepo.findById(walletId)
                 .orElseThrow(() -> new RuntimeException("Wallet Does Not Exist"));

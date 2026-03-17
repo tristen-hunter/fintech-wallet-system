@@ -24,12 +24,14 @@ public class TransactionService {
     private final WalletRepository walletRepo;
     private final TransactionRepository transactionRepo;
 
+    // Constructor - injecting: the Wallet DB and the Transaction DB
     public TransactionService(WalletRepository walletRepo, TransactionRepository transactionRepo){
         this.walletRepo = walletRepo;
         this.transactionRepo = transactionRepo;
     }
 
-    // For creating a new Transaction
+
+    // [USER] For creating a new Transaction
     public TransactionResponseDTO createTransaction(@NotNull @NonNull TransactionRequestDTO newTransactionDTO){
         // 1. Verify Wallets exist
         Wallet sender = walletRepo.findById(newTransactionDTO.getSenderWalletId())
@@ -80,7 +82,8 @@ public class TransactionService {
     }
 
 
-    // For Finding a specific transaction by Id
+    // [USER] For returning a specific transactions attributes by using it's ID
+        // USECASE: a user clicks "View Details" on the transaction in the list of transactions
     public TransactionResponseDTO getTransactionById(UUID transactionId){
         Transaction transaction = transactionRepo.findById(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction Not Found :("));
@@ -95,7 +98,8 @@ public class TransactionService {
         );
     }
 
-    // Return a list of Transactions pertaining to a certain Wallet ID
+    // [USER] Return a list of Transactions pertaining to a certain Wallet ID
+        // USECASE: User clicks "View Transaction History" on their wallet card
     public List<TransactionResponseDTO> getWalletTransactions(UUID walletId){
         return transactionRepo.findBySenderWalletIdOrReceiverWalletId(walletId, walletId)
                 .stream()
@@ -109,6 +113,4 @@ public class TransactionService {
                 ))
                 .toList();
     }
-
-    //
 }
