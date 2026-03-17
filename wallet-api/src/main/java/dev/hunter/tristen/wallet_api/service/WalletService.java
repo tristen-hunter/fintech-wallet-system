@@ -67,6 +67,18 @@ public class WalletService {
     }
 
     // [USER] get all a users wallets and display them in a list of cards
+    public List<WalletResponseDTO> getUserWallets(UUID userId){
+        return walletRepo.findWalletsByUserId(userId)
+                .stream()
+                .map(wallet -> new WalletResponseDTO(
+                        wallet.getId(),
+                        wallet.getUser().getId(),
+                        wallet.getBalance(),
+                        wallet.getCurrency(),
+                        wallet.getCreatedAt()
+                ))
+                .toList();
+    }
 
     // [USER] Return a wallet by an ID (path variable) - for a user to view a specific wallets attributes
     public WalletResponseDTO getWalletById(UUID walletId){

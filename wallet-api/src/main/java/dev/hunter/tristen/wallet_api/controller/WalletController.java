@@ -33,6 +33,10 @@ public class WalletController {
     }
 
     // [USER] View all a users wallets
+    @GetMapping("/{userId}")
+    public List<WalletResponseDTO> getWalletsByUserId(@PathVariable UUID userId){
+        return walletService.getUserWallets(userId);
+    }
 
     // [USER] Get a certain wallets attributes (usually owned by a user)
     @GetMapping("/{walletId}")

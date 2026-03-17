@@ -98,6 +98,7 @@ public class TransactionService {
         );
     }
 
+
     // [USER] Return a list of Transactions pertaining to a certain Wallet ID
         // USECASE: User clicks "View Transaction History" on their wallet card
     public List<TransactionResponseDTO> getWalletTransactions(UUID walletId){
