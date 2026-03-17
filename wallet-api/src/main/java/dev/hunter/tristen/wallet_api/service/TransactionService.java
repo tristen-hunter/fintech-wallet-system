@@ -4,6 +4,7 @@ import dev.hunter.tristen.wallet_api.dto.TransactionRequestDTO;
 import dev.hunter.tristen.wallet_api.dto.TransactionResponseDTO;
 import dev.hunter.tristen.wallet_api.model.TransactionStatus;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import dev.hunter.tristen.wallet_api.model.Wallet;
 import dev.hunter.tristen.wallet_api.model.Transaction;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@Valid
 @Transactional
 @Service
 public class TransactionService {
@@ -33,42 +35,52 @@ public class TransactionService {
 
     // [USER] For creating a new Transaction
     public TransactionResponseDTO createTransaction(@NotNull @NonNull TransactionRequestDTO newTransactionDTO){
-        // 1. Verify Wallets exist
-        Wallet sender = walletRepo.findById(newTransactionDTO.getSenderWalletId())
-                .orElseThrow(()-> new RuntimeException("Sender wallet not found"));
+        if (newTransactionDTO.getSenderWalletId().equals(newTransactionDTO.getReceiverWalletId())) {
+            throw new RuntimeException("Cannot send money to the same wallet.");
+        }
 
-        Wallet receiver = walletRepo.findById(newTransactionDTO.getReceiverWalletId())
-                .orElseThrow(() -> new RuntimeException("Receiver wallet not found"));
+        // 1. Order wallets UUID's & Lock them
+        UUID firstId  = newTransactionDTO.getSenderWalletId();
+        UUID secondId = newTransactionDTO.getReceiverWalletId();
 
-        // 2. Create Transaction Object
+        if (firstId.compareTo(secondId) > 0){
+            firstId = newTransactionDTO.getReceiverWalletId();
+            secondId = newTransactionDTO.getSenderWalletId();
+        }
+
+        // 2. Lock wallets into a consistent order
+        walletRepo.findByIdForUpdate(firstId);
+        walletRepo.findByIdForUpdate(secondId);
+
+        // 3. Assign wallets to the sender or receiver IF they exist
+        Wallet sender = walletRepo.findById(newTransactionDTO.getSenderWalletId()).orElseThrow();
+        Wallet receiver = walletRepo.findById(newTransactionDTO.getReceiverWalletId()).orElseThrow();
+
+        // 4. Create Transaction Object
         Transaction newTransaction = new Transaction(
                 sender,
                 receiver,
                 newTransactionDTO.getAmount()
         );
 
-        // 3. Validate Balance
+        // 5. Validate Balance
         if (sender.getBalance().compareTo(newTransaction.getAmount()) < 0){
-            newTransaction.setStatus(TransactionStatus.FAILED);
             throw new RuntimeException("Balance too low :(");
         } else if (newTransaction.getAmount().compareTo(BigDecimal.valueOf(0)) <= 0){
-            newTransaction.setStatus(TransactionStatus.FAILED);
-            throw new RuntimeException("Transaction Amount Cannot be Negative oe Zero");
+            throw new RuntimeException("Transaction Amount Cannot be Negative or Zero");
         }
 
-        // 4. Change wallet Balances (Calculate, set, save)
+        // 6. Change wallet Balances (Calculate, set, save)
         BigDecimal newSenderBalance = sender.getBalance().subtract(newTransaction.getAmount());
         sender.setBalance(newSenderBalance);
-        walletRepo.save(sender);
 
         BigDecimal newReceiverBalance = receiver.getBalance().add(newTransaction.getAmount());
         receiver.setBalance(newReceiverBalance);
-        walletRepo.save(receiver);
 
-        // 5. Set Status
+        // 7. Set Status
         newTransaction.setStatus(TransactionStatus.COMPLETED);
 
-        // 6. Save to the DB
+        // 8. Save to the DB
         Transaction savedTransaction = transactionRepo.save(newTransaction);
 
         return new TransactionResponseDTO(
