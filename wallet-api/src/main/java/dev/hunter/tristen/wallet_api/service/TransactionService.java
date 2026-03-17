@@ -2,12 +2,11 @@ package dev.hunter.tristen.wallet_api.service;
 
 import dev.hunter.tristen.wallet_api.dto.TransactionRequestDTO;
 import dev.hunter.tristen.wallet_api.dto.TransactionResponseDTO;
-import dev.hunter.tristen.wallet_api.model.TransactionStatus;
+import dev.hunter.tristen.wallet_api.model.*;
+import dev.hunter.tristen.wallet_api.repo.LedgerRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import dev.hunter.tristen.wallet_api.model.Wallet;
-import dev.hunter.tristen.wallet_api.model.Transaction;
 import org.jspecify.annotations.NonNull;
 import dev.hunter.tristen.wallet_api.repo.TransactionRepository;
 import dev.hunter.tristen.wallet_api.repo.WalletRepository;
@@ -25,11 +24,16 @@ public class TransactionService {
 
     private final WalletRepository walletRepo;
     private final TransactionRepository transactionRepo;
+    private final LedgerRepository ledgerRepo;
 
-    // Constructor - injecting: the Wallet DB and the Transaction DB
-    public TransactionService(WalletRepository walletRepo, TransactionRepository transactionRepo){
+    // Constructor - injecting: the Wallet DB, the Transaction DB and the Ledger DB
+    public TransactionService(
+            WalletRepository walletRepo,
+            TransactionRepository transactionRepo,
+            LedgerRepository ledgerRepo){
         this.walletRepo = walletRepo;
         this.transactionRepo = transactionRepo;
+        this.ledgerRepo = ledgerRepo;
     }
 
 
@@ -80,8 +84,26 @@ public class TransactionService {
         // 7. Set Status
         newTransaction.setStatus(TransactionStatus.COMPLETED);
 
+
         // 8. Save to the DB
         Transaction savedTransaction = transactionRepo.save(newTransaction);
+
+        ///  ADD THE TRANSACTION TO THE DOUBLE ENTRY LEDGER
+        LedgerEntry debitEntry = new LedgerEntry(
+                newTransaction,
+                receiver,
+                LedgerType.DEBIT,
+                newTransaction.getAmount()
+        );
+
+        LedgerEntry creditEntry = new LedgerEntry(
+                newTransaction,
+                sender,
+                LedgerType.CREDIT,
+                newTransaction.getAmount().negate()
+        );
+
+        ledgerRepo.saveAll(List.of(debitEntry, creditEntry));
 
         return new TransactionResponseDTO(
                 savedTransaction.getId(),
