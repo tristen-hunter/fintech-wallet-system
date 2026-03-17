@@ -20,22 +20,15 @@ public class MyUserDetailsService implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
-    // Authenticate the user (find and verify credentials)
     @Override
-    public UserDetails loadUserByUsername(@NonNull String email)
-            throws UsernameNotFoundException {
-
-        // Find, verify and return the user based on their email
+    public UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
         Users user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        // Wrap in the Spring Security User object
-        return new User(
-                user.getEmail(),
-                user.getPasswordHash(),
-                List.of()
-        );
-
+        return User.builder()
+                .username(user.getEmail())
+                .password(user.getPasswordHash())
+                .authorities("USER") // Explicitly grant authority
+                .build();
     }
-
 }

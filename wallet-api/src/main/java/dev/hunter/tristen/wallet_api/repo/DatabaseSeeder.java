@@ -46,13 +46,13 @@ public class DatabaseSeeder implements CommandLineRunner {
         Users tristen = new Users();
         tristen.setUserName("Tristen");
         tristen.setEmail("tristen@huntermedia.com");
-        tristen.setPasswordHash(passwordEncoder.encode("password123"));
+        tristen.setPasswordHash(passwordEncoder.encode("pass123"));
         tristen.setCreatedAt(LocalDateTime.now());
 
         Users sarah = new Users();
         sarah.setUserName("Sarah J");
         sarah.setEmail("sarah@example.com");
-        sarah.setPasswordHash(passwordEncoder.encode("password123"));
+        sarah.setPasswordHash(passwordEncoder.encode("pass123"));
         sarah.setCreatedAt(LocalDateTime.now());
 
         userRepo.saveAll(List.of(tristen, sarah));
@@ -105,6 +105,6 @@ public class DatabaseSeeder implements CommandLineRunner {
         System.out.println("Database seeded successfully!");
         System.out.println("Test login:");
         System.out.println("Email: tristen@huntermedia.com");
-        System.out.println("Password: password123");
+        System.out.println("Password: pass123");
     }
 }
