@@ -1,6 +1,5 @@
-package dev.hunter.tristen.wallet_api.repo;
+package dev.hunter.tristen.wallet_api.domain.wallet;
 
-import dev.hunter.tristen.wallet_api.model.Wallet;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

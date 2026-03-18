@@ -1,6 +1,6 @@
 package dev.hunter.tristen.wallet_api.dto;
 
-import dev.hunter.tristen.wallet_api.model.TransactionStatus;
+import dev.hunter.tristen.wallet_api.domain.transaction.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

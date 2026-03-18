@@ -1,9 +1,9 @@
-package dev.hunter.tristen.wallet_api.controller;
+package dev.hunter.tristen.wallet_api.domain.auth;
 
 import dev.hunter.tristen.wallet_api.dto.UserFetchDTO;
 import dev.hunter.tristen.wallet_api.dto.UserLoginDTO;
-import dev.hunter.tristen.wallet_api.model.Users;
-import dev.hunter.tristen.wallet_api.repo.UserRepository;
+import dev.hunter.tristen.wallet_api.domain.user.Users;
+import dev.hunter.tristen.wallet_api.domain.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;

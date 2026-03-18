@@ -1,6 +1,5 @@
-package dev.hunter.tristen.wallet_api.repo;
+package dev.hunter.tristen.wallet_api.domain.transaction;
 
-import dev.hunter.tristen.wallet_api.model.LedgerEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

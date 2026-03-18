@@ -1,13 +1,11 @@
-package dev.hunter.tristen.wallet_api.service;
+package dev.hunter.tristen.wallet_api.domain.user;
 
 import dev.hunter.tristen.wallet_api.dto.UserCreateDTO;
 import dev.hunter.tristen.wallet_api.dto.UserFetchDTO;
-import dev.hunter.tristen.wallet_api.model.Users;
 import jakarta.transaction.Transactional;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import dev.hunter.tristen.wallet_api.repo.UserRepository;
 
 import java.util.UUID;
 

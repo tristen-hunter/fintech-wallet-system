@@ -1,8 +1,11 @@
-package dev.hunter.tristen.wallet_api.repo;
+package dev.hunter.tristen.wallet_api.infra;
 
-import dev.hunter.tristen.wallet_api.model.Transaction;
-import dev.hunter.tristen.wallet_api.model.Users;
-import dev.hunter.tristen.wallet_api.model.Wallet;
+import dev.hunter.tristen.wallet_api.domain.transaction.TransactionRepository;
+import dev.hunter.tristen.wallet_api.domain.user.UserRepository;
+import dev.hunter.tristen.wallet_api.domain.wallet.WalletRepository;
+import dev.hunter.tristen.wallet_api.domain.transaction.Transaction;
+import dev.hunter.tristen.wallet_api.domain.user.Users;
+import dev.hunter.tristen.wallet_api.domain.wallet.Wallet;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

@@ -20,6 +20,12 @@ public class TransactionRequestDTO {
     @Digits(integer = 12, fraction = 2, message = "Amount can only have up to 2 decimal places")
     private BigDecimal amount;
 
+    public TransactionRequestDTO(UUID senderWalletId, UUID receiverWalletId, BigDecimal amount) {
+        this.senderWalletId = senderWalletId;
+        this.receiverWalletId = receiverWalletId;
+        this.amount = amount;
+    }
+
     public TransactionRequestDTO(){}
 
     // Getters

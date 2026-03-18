@@ -1,6 +1,10 @@
-package dev.hunter.tristen.wallet_api.model;
+package dev.hunter.tristen.wallet_api.domain.wallet;
 
+import dev.hunter.tristen.wallet_api.domain.user.Users;
+import dev.hunter.tristen.wallet_api.domain.transaction.Transaction;
 import jakarta.persistence.*;
+import org.jspecify.annotations.NonNull;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,6 +47,29 @@ public class Wallet {
     // create a date and time at the exact moment the entity is created
     @PrePersist
     protected void onCreate() { createdAt = LocalDateTime.now(); }
+
+    ///  Business logic
+
+    // Inside Wallet.java (or a Validator class)
+    public static void validateDifferentWallets(@NonNull UUID senderId, UUID receiverId) {
+        if (senderId.equals(receiverId)) {
+            throw new RuntimeException("Cannot send money to the same wallet.");
+        }
+    }
+
+    // Subtracting from balances
+    public void debit(@NonNull BigDecimal amount){  // Sender of the money
+        if (amount.compareTo(this.balance) > 0){
+            throw new RuntimeException("balance is too low");
+        }
+        this.balance = this.balance.subtract(amount);
+    }
+
+    public void credit(BigDecimal amount){  // Receiver of the money
+        this.balance = this.balance.add(amount);
+    }
+
+
 
     public Wallet(){
 

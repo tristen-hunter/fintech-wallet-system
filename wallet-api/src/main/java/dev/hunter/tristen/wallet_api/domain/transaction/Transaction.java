@@ -1,9 +1,12 @@
-package dev.hunter.tristen.wallet_api.model;
+package dev.hunter.tristen.wallet_api.domain.transaction;
 
+import dev.hunter.tristen.wallet_api.domain.wallet.Wallet;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -43,6 +46,7 @@ public class Transaction {
 
     }
 
+    // constructor
     public Transaction(Wallet senderWallet, Wallet receiverWallet, BigDecimal amount) {
         this.senderWallet = senderWallet;
         this.receiverWallet = receiverWallet;
@@ -50,44 +54,51 @@ public class Transaction {
         this.status = TransactionStatus.PENDING;
     }
 
-    // ID
+    ///  Business Logic
+    // For setting ledger entries
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LedgerEntry> ledgerEntries = new ArrayList<>();
+
+    // The setter the Factory uses
+    public void addLedgerEntry(LedgerEntry entry) {
+        ledgerEntries.add(entry);
+        entry.setTransaction(this); // This links the LedgerEntry to this Transaction
+    }
+
+    // getters
     public UUID getId() {
         return id;
     }
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    // Sender Wallet
     public Wallet getSenderWallet() {
         return senderWallet;
     }
-    public void setSenderWallet(Wallet senderWallet) { this.senderWallet = senderWallet; }
-
-    // Receiver Wallet
     public Wallet getReceiverWallet() { return receiverWallet; }
-    public void setReceiverWallet(Wallet receiverWallet) {
-        this.receiverWallet = receiverWallet;
-    }
-
-    // Amount
     public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    // Status
     public TransactionStatus getStatus() {
         return status;
+    }
+    public LocalDateTime getCreatedAt() {
+        return timestamp;
+    }
+    public List<LedgerEntry> getLedgerEntries() {
+        return ledgerEntries;
+    }
+
+    // setters
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    public void setSenderWallet(Wallet senderWallet) { this.senderWallet = senderWallet; }
+    public void setReceiverWallet(Wallet receiverWallet) {
+        this.receiverWallet = receiverWallet;
+    }
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
     public void setStatus(TransactionStatus status) {
         this.status = status;
     }
 
-    // Created Timestamp
-    public LocalDateTime getCreatedAt() {
-        return timestamp;
-    }
 }

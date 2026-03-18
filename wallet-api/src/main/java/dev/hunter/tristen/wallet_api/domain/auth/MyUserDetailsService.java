@@ -1,15 +1,13 @@
-package dev.hunter.tristen.wallet_api.service;
+package dev.hunter.tristen.wallet_api.domain.auth;
 
-import dev.hunter.tristen.wallet_api.model.Users;
-import dev.hunter.tristen.wallet_api.repo.UserRepository;
+import dev.hunter.tristen.wallet_api.domain.user.Users;
+import dev.hunter.tristen.wallet_api.domain.user.UserRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

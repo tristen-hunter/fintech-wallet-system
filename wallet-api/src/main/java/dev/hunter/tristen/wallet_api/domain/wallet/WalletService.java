@@ -1,13 +1,11 @@
-package dev.hunter.tristen.wallet_api.service;
+package dev.hunter.tristen.wallet_api.domain.wallet;
 
 import dev.hunter.tristen.wallet_api.dto.WalletCreateDTO;
 import dev.hunter.tristen.wallet_api.dto.WalletResponseDTO;
-import dev.hunter.tristen.wallet_api.model.Users;
-import dev.hunter.tristen.wallet_api.model.Wallet;
+import dev.hunter.tristen.wallet_api.domain.user.Users;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
-import dev.hunter.tristen.wallet_api.repo.UserRepository;
-import dev.hunter.tristen.wallet_api.repo.WalletRepository;
+import dev.hunter.tristen.wallet_api.domain.user.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -92,6 +90,23 @@ public class WalletService {
                 wallet.getCurrency(),
                 wallet.getCreatedAt()
         );
+    }
+
+
+    // [SYSTEM] for isolating wallets
+    public LockedWallets lockAndFetchWallets(@NonNull UUID idA, UUID idB){
+        // 1. Sort the IDs to prevent deadlocks
+        UUID firstId = idA.compareTo(idB) < 0 ? idA : idB;
+        UUID secondId = idA.compareTo(idB) < 0 ? idB : idA;
+
+        // 2. Lock them in the DB (Pessimistic Write Lock)
+        // The lock stays active until the @Transactional method in the Service finishes!
+        Wallet first = walletRepo.findByIdForUpdate(firstId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found: " + firstId));
+        Wallet second = walletRepo.findByIdForUpdate(secondId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found: " + secondId));
+
+        return new LockedWallets(first, second);
     }
 
 }

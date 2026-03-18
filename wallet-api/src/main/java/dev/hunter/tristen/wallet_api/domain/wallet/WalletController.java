@@ -1,9 +1,8 @@
-package dev.hunter.tristen.wallet_api.controller;
+package dev.hunter.tristen.wallet_api.domain.wallet;
 
 import dev.hunter.tristen.wallet_api.dto.WalletCreateDTO;
 import dev.hunter.tristen.wallet_api.dto.WalletResponseDTO;
 import org.springframework.web.bind.annotation.*;
-import dev.hunter.tristen.wallet_api.service.WalletService;
 
 import java.util.List;
 import java.util.UUID;

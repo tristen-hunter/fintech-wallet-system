@@ -1,5 +1,6 @@
-package dev.hunter.tristen.wallet_api.model;
+package dev.hunter.tristen.wallet_api.domain.user;
 
+import dev.hunter.tristen.wallet_api.domain.wallet.Wallet;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

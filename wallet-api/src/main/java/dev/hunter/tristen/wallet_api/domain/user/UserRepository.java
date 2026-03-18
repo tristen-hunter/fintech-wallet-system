@@ -1,6 +1,5 @@
-package dev.hunter.tristen.wallet_api.repo;
+package dev.hunter.tristen.wallet_api.domain.user;
 
-import dev.hunter.tristen.wallet_api.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

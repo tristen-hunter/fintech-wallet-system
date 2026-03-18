@@ -1,5 +1,6 @@
-package dev.hunter.tristen.wallet_api.model;
+package dev.hunter.tristen.wallet_api.domain.transaction;
 
+import dev.hunter.tristen.wallet_api.domain.wallet.Wallet;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
