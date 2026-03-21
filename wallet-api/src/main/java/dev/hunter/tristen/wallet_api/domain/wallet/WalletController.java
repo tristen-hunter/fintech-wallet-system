@@ -19,7 +19,7 @@ public class WalletController {
     }
 
     // [ADMIN] Get all wallets for a certain user
-    @GetMapping("/{userId}")
+    @GetMapping
     public List<WalletResponseDTO> getWallets(){
         return walletService.getWallets();
     }
@@ -32,7 +32,7 @@ public class WalletController {
     }
 
     // [USER] View all a users wallets
-    @GetMapping("/{userId}")
+    @GetMapping("user/{userId}")
     public List<WalletResponseDTO> getWalletsByUserId(@PathVariable UUID userId){
         return walletService.getUserWallets(userId);
     }
