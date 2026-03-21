@@ -1,8 +1,22 @@
 import { useState } from 'react'
+import { login } from "../api/authApi.ts";
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+
+    // Send Data to the backend
+    const handleLogin = async () => {
+        try {
+            const response = await login({ email, password })
+
+            console.log("User: ", response.data)
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
+    }
 
   return (
     <>
@@ -25,7 +39,7 @@ const LoginPage = () => {
     />
     <button 
         className="bg-blue-500 text-white p-2"
-        onClick={() => console.log(email, password)}
+        onClick={handleLogin}
     >
         login
     </button>
