@@ -20,7 +20,7 @@ function App() {
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
 
-          <Route path="wallet" element={<Wallets />} />
+          <Route path="wallets" element={<Wallets />} />
           <Route path="transactions" element={<Transactions />} />
 
         </Route>
