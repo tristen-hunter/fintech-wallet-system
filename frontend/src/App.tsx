@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
-
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import SignupPage from "./pages/SignupPage";
@@ -8,29 +7,33 @@ import Wallets from "./pages/Wallets";
 import Transactions from "./pages/Transactions";
 import Reports from "./pages/Reports";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
+import { AuthProvider } from "./context/AuthContext"; // Import the Provider
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-            {/*No Sidebar or Topbar*/}
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+            {/* Public Routes: Accessible to everyone */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
 
+            {/* Protected Area: useAuth works here because it's inside AuthProvider */}
             <Route element={<ProtectedRoutes />}>
-                {/*private route that is wrapped in the Mainlayout structure*/}
                 <Route path="/" element={<MainLayout />}>
                   <Route index element={<Navigate to="/dashboard" replace />} />
                   <Route path="dashboard" element={<Dashboard />} />
-
                   <Route path="wallets" element={<Wallets />} />
                   <Route path="transactions" element={<Transactions />} />
                   <Route path="reports" element={<Reports />} />
                 </Route>
             </Route>
             
-      </Routes>
-    </BrowserRouter>
+            {/* Optional: Catch-all redirect */}
+            <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

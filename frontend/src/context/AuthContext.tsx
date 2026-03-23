@@ -11,7 +11,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>  (undefined);
 
-export const Authprovider = ({ children }: { children: ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode}) => {
     // create states for the user and the loading status
     const [user, setUser] = useState<UserfetchDTO | null>(null);
     const [loading, setLoading] =useState(true);
