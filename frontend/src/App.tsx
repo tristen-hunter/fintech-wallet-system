@@ -26,9 +26,9 @@ function App() {
                   <Route path="wallets" element={<Wallets />} />
                   <Route path="transactions" element={<Transactions />} />
                   <Route path="reports" element={<Reports />} />
-
                 </Route>
             </Route>
+            
       </Routes>
     </BrowserRouter>
   )
