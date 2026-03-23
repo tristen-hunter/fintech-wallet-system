@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -48,6 +48,27 @@ public class AuthController {
         );
 
         Users user = userRepo.findByEmail(loginRequest.getEmail())
+                .orElseThrow();
+
+        return new UserFetchDTO(
+                user.getId(),
+                user.getUserName(),
+                user.getEmail(),
+                user.getCreatedAt()
+        );
+    }
+
+    @GetMapping("/me")
+    public UserFetchDTO getCurrentUser(Authentication auth){
+
+        // Verify authentication
+        // If no auth -> USER IS NOT LOGGED IN
+        if (auth == null || !auth.isAuthenticated()){
+            throw new RuntimeException("Not AuthenticTED"); // RETURNS 500
+        }
+            String email = auth.getName();
+
+        Users user = userRepo.findByEmail(email)
                 .orElseThrow();
 
         return new UserFetchDTO(
