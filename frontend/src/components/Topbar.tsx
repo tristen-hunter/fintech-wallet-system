@@ -1,4 +1,4 @@
-import { Menu, User, Bell } from "lucide-react";
+import { Menu, Bell } from "lucide-react";
 
 const Topbar = () => {
   return (
@@ -19,7 +19,7 @@ const Topbar = () => {
           <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-blue-600 border-2 border-white"></span>
         </button>
 
-        <div className="h-8 w-[1px] bg-slate-200 mx-2" /> {/* Divider */}
+        <div className="h-8 w-px bg-slate-200 mx-2" /> {/* Divider */}
 
         <div className="flex items-center gap-3 pl-2">
           <div className="text-right hidden sm:block">
