@@ -1,6 +1,12 @@
 import { Menu, Bell } from "lucide-react";
+import {useAuth} from "../context/AuthContext"
 
 const Topbar = () => {
+  const { user } = useAuth();
+
+  console.log(user)
+  console.log(user?.userName.slice(0,2).toUpperCase())
+  
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/80 px-6 backdrop-blur-md">
       {/* Left Section: Toggle & Title */}
@@ -23,11 +29,11 @@ const Topbar = () => {
 
         <div className="flex items-center gap-3 pl-2">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-medium text-slate-900">John Doe</p>
-            <p className="text-xs text-slate-500">Admin</p>
+            <p className="text-sm font-medium text-slate-900">{user?.userName}</p>
+            <p className="text-xs text-slate-500">{user?.email}</p>
           </div>
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-            JD
+            {user?.userName.slice(0, 2).toUpperCase()}
           </div>
         </div>
       </div>
