@@ -13,6 +13,7 @@ public class TransactionResponseDTO {
     private BigDecimal amount;
     private TransactionStatus status;
     private LocalDateTime timestamp;
+//    private String otherPartyEmail;
 
     // Default constructor for JSON mapping
     public TransactionResponseDTO() {}
@@ -35,6 +36,7 @@ public class TransactionResponseDTO {
     public BigDecimal getAmount() { return amount; }
     public TransactionStatus getStatus() { return status; }
     public LocalDateTime getTimestamp() { return timestamp; }
+//    public String getOtherPartyEmail() { return otherPartyEmail; }
 
     // --- Setters ---
     public void setId(UUID id) { this.id = id; }

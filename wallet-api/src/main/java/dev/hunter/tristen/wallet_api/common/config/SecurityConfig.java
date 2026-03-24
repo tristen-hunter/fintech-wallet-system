@@ -3,6 +3,7 @@ package dev.hunter.tristen.wallet_api.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer; // Add this
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,7 +11,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration; // Add this
+import org.springframework.web.cors.CorsConfigurationSource; // Add this
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Add this
 
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +27,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Spring will find your MyUserDetailsService automatically because it's marked @Service
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -30,15 +35,36 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Required for POST requests from JS/Postman
+                // 1. Tell Spring Security to use the CorsConfigurationSource bean below
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Allows access to /auth/login
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 );
-                // Since you aren't using JWT, you need to tell Spring how to handle sessions
-                // for standard "Basic" or "Form" logic, but since we are doing custom JSON login:
-                // .httpBasic(org.springframework.security.config.Customizer.withDefaults());
 
         return http.build();
+    }
+
+    // 2. Define the actual CORS rules here
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // Exact origin of your Vite/Frontend app
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+
+        // Methods you want to allow
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Allow all headers (important for JWT/Authorization headers)
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // Allow cookies/auth headers to be sent
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

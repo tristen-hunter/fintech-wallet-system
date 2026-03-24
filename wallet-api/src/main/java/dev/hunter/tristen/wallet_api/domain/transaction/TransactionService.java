@@ -5,6 +5,7 @@ import dev.hunter.tristen.wallet_api.domain.wallet.Wallet;
 import dev.hunter.tristen.wallet_api.domain.wallet.WalletService;
 import dev.hunter.tristen.wallet_api.dto.TransactionRequestDTO;
 import dev.hunter.tristen.wallet_api.dto.TransactionResponseDTO;
+import dev.hunter.tristen.wallet_api.dto.TransactionUserResponseDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -72,7 +73,7 @@ public class TransactionService {
                 saved.getAmount(),
                 saved.getStatus(),
                 saved.getCreatedAt()
-        );
+                );
     }
 
 
@@ -107,5 +108,12 @@ public class TransactionService {
                         transaction.getCreatedAt()
                 ))
                 .toList();
+    }
+
+
+    // [USER] Return all a users Transactions, marked SENT RECEIVED
+    public List<TransactionUserResponseDTO> getUserTransactions(UUID userId) {
+        // repo already returns the list correctly mapped
+        return transactionRepo.findHistoryByUserId(userId);
     }
 }

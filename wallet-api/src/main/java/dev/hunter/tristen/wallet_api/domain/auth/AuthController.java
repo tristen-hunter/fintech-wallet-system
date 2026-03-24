@@ -58,6 +58,8 @@ public class AuthController {
         );
     }
 
+
+
     @GetMapping("/me")
     public UserFetchDTO getCurrentUser(Authentication auth){
 
