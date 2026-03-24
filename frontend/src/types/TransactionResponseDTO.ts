@@ -1,11 +1,11 @@
 type UUID = string;
 
-
-export default interface TransactionResponseDTO {
+export default interface TransactionUserResponseDTO {
     readonly id: UUID;
-    readonly senderWalletId: UUID;
-    readonly receiverWalletId: UUID;
-    amount: string;
-    status: string;
+    readonly amount: string;
+    readonly status: string;
     readonly timestamp: string;
+    readonly direction: 'SENT' | 'RECEIVED';
+    readonly counterpartyEmail: string;
+    readonly counterpartyWalletId: UUID;
 };
