@@ -3,9 +3,6 @@ import {useAuth} from "../context/AuthContext"
 
 const Topbar = () => {
   const { user } = useAuth();
-
-  console.log(user)
-  console.log(user?.userName.slice(0,2).toUpperCase())
   
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/80 px-6 backdrop-blur-md">
