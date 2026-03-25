@@ -1,4 +1,5 @@
-import { Plus, CreditCard, MoreHorizontal, Clock, ArrowUpRight } from "lucide-react";import { useEffect, useState } from "react"
+import { Plus, CreditCard, MoreHorizontal, Clock, ArrowUpRight, Send } from "lucide-react";
+import { useEffect, useState } from "react"
 import type WalletResponseDTO from "../types/WalletResponseDTO"
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
