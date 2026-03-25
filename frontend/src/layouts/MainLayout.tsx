@@ -12,7 +12,7 @@ const MainLayout = () => {
         <Topbar />
         
         {/* Content Area */}
-        <main className="p-6">
+        <main className="p-6 pl-72">
           <div className="mx-auto max-w-7xl">
             <Outlet />
           </div>

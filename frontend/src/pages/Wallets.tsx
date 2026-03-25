@@ -1,4 +1,4 @@
-import { Plus, CreditCard, MoreHorizontal, Clock, ArrowUpRight, Send } from "lucide-react";
+import { Plus, CreditCard, Clock, ArrowUpRight, Fingerprint } from "lucide-react";
 import { useEffect, useState } from "react"
 import type WalletResponseDTO from "../types/WalletResponseDTO"
 import api from "../api/axios";
@@ -95,7 +95,7 @@ const Wallets = () => {
             onClick={() => setSelectedWalletId(wallet.id)} // wallet.id from your .map()
             className="text-slate-400 hover:text-slate-600 transition-colors"
           >
-            <MoreHorizontal size={20} />
+            <Fingerprint size={20} />
           </button>
         </div>
 
@@ -153,7 +153,6 @@ const Wallets = () => {
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="GBP">GBP - British Pound</option>
-                <option value="NGN">NGN - Nigerian Naira</option>
                 <option value="ZAR">ZAR - South African Rand</option>
               </select>
             </div>

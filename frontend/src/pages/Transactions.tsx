@@ -31,6 +31,7 @@ const Transactions = () => {
   };
 
 
+  // Returns all users transactions when the page loads
   useEffect(() => {
     const getUserTransactions = async () => {
       try {
@@ -46,6 +47,7 @@ const Transactions = () => {
     getUserTransactions();
   }, [])
 
+  // Format currency 
   const formatCurrency = (amount: string) => {
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2,
@@ -199,7 +201,7 @@ const Transactions = () => {
                     value={formData.amount}
                     onChange={(e) => setFormData({...formData, amount: e.target.value})}
                   />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                  {/* <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Default to Wallet Currency</span> */}
                 </div>
               </div>
 

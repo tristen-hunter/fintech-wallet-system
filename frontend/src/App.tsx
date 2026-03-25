@@ -5,7 +5,6 @@ import SignupPage from "./pages/SignupPage";
 import MainLayout from "./layouts/MainLayout";
 import Wallets from "./pages/Wallets";
 import Transactions from "./pages/Transactions";
-import Reports from "./pages/Reports";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthContext"; // Import the Provider
 
@@ -25,7 +24,6 @@ function App() {
                   <Route path="dashboard" element={<Dashboard />} />
                   <Route path="wallets" element={<Wallets />} />
                   <Route path="transactions" element={<Transactions />} />
-                  <Route path="reports" element={<Reports />} />
                 </Route>
             </Route>
             
