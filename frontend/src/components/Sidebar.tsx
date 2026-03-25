@@ -8,7 +8,6 @@ const Sidebar = () => {
     { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/" },
     { name: "Wallets", icon: <Wallet size={20} />, path: "/wallets" },
     { name: "Transactions", icon: <ArrowLeftRight size={20} />, path: "/transactions" },
-    { name: "Reports", icon: <FileBarChart size={20} />, path: "/reports" },
   ];
 
   return (
