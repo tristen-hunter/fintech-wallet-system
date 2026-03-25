@@ -9,7 +9,16 @@ const Wallets = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal Toggle
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const { user } = useAuth();
+  const [selectedWalletId, setSelectedWalletId] = useState<string | null>(null);
 
+  // Get the ID for a specific wallet and copies to clipboard
+  const copyToClipboard = (id: string) => {
+    navigator.clipboard.writeText(id);
+    // Optional: Add a "Copied!" toast/alert here
+    alert("ID copied to clipboard!");
+  };
+
+  // Gets all a users wallets - using their ID to sent a get request
   useEffect(() => {
     const getUserWallets = async () => {
       try {
@@ -26,6 +35,7 @@ const Wallets = () => {
   }, [])
 
 
+  // Handles the logic of sending the WalletCreateDTO to the backend and rerenders UI
   const handleCreateWallet = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
@@ -81,7 +91,10 @@ const Wallets = () => {
               {wallet.currency}
             </span>
           </div>
-          <button className="text-slate-400 hover:text-slate-600">
+          <button 
+            onClick={() => setSelectedWalletId(wallet.id)} // wallet.id from your .map()
+            className="text-slate-400 hover:text-slate-600 transition-colors"
+          >
             <MoreHorizontal size={20} />
           </button>
         </div>
@@ -164,6 +177,48 @@ const Wallets = () => {
         </div>
       </div>
     )}
+
+    {selectedWalletId && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+    <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl animate-in fade-in zoom-in duration-150">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-lg font-bold text-slate-900">Wallet Details</h3>
+        <button 
+          onClick={() => setSelectedWalletId(null)}
+          className="text-slate-400 hover:text-slate-600"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-500">
+            Wallet UUID
+          </label>
+          <div className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
+            <code className="flex-1 overflow-hidden text-ellipsis text-xs font-medium text-slate-700">
+              {selectedWalletId}
+            </code>
+            <button
+              onClick={() => copyToClipboard(selectedWalletId)}
+              className="rounded-md bg-white px-2 py-1 text-xs font-bold text-blue-600 shadow-sm border border-slate-200 hover:bg-blue-50 transition-colors"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+        
+        <button
+          onClick={() => setSelectedWalletId(null)}
+          className="w-full rounded-xl bg-slate-900 py-3 text-sm font-bold text-white transition-all hover:bg-slate-800"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 </div>
   )
 }
