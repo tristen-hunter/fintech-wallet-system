@@ -11,6 +11,7 @@ const Wallets = () => {
   const { user } = useAuth();
   const [selectedWalletId, setSelectedWalletId] = useState<string | null>(null);
 
+
   // Get the ID for a specific wallet and copies to clipboard
   const copyToClipboard = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -18,6 +19,7 @@ const Wallets = () => {
     alert("ID copied to clipboard!");
   };
 
+  
   // Gets all a users wallets - using their ID to sent a get request
   useEffect(() => {
     const getUserWallets = async () => {
