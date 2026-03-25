@@ -24,6 +24,10 @@ public class WalletController {
         return walletService.getWallets();
     }
 
+    // [SYSTEM] Get all a users wallets and calculate total networth in USD
+    @GetMapping("/networth/{userId}")
+    public String getNetworth(@PathVariable UUID userId){ return walletService.getNetworth(userId); }
+
 
     // [USER] - for a user to create a new wallet
     @PostMapping
