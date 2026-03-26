@@ -4,7 +4,8 @@
 
 A backend system for managing digital wallets and money transfers.
 
-The system allows users to create accounts, create wallets, deposit funds, transfer money between wallets, and view transaction history.
+The system allows users to create accounts, create wallets, transfer money between wallets, and view transaction history.
+There is also a Dashboard to aggregate user data and give simple reports on a users spending habits.
 
 
 ## Tech Stack
@@ -18,18 +19,21 @@ Backend:
 Frontend (planned):
 * React
 * Vite
+* Tailwind
 
 
 ## Features
 
 * Create users
 * Create wallets
-* Deposit funds into wallets
 * Transfer money between wallets
 * View wallet transaction history
+* Currency Conversion
+* ACID Transactions
+* User AUTH - with sessions
 
 
-## API Endpoints (planned)
+## API Endpoints (edit here)
 
 POST /users
 Create a user account
@@ -47,16 +51,6 @@ GET /wallets/{id}/transactions
 Retrieve transaction history for a wallet
 
 
-## Running the Project
-
-1. Install PostgreSQL
-2. Create a database named `fintech_wallet_db`
-3. Configure database connection in `application.properties`
-4. Run the Spring Boot application
-5. Start the frontend application when implemented
-
-
 ## Project Structure
-still busy...
 wallet-frontend (planned)
 React frontend application
