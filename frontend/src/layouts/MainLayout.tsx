@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 
+
+// This is the general layout of all the elements
 const MainLayout = () => {
   return (
     <div className="flex min-h-screen bg-slate-50">

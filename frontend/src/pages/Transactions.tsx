@@ -17,6 +17,7 @@ const Transactions = () => {
   });
 
   // Handler for form submission
+    // calls the API call and POST request
   const handleCreateTransaction = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
@@ -54,6 +55,7 @@ const Transactions = () => {
     }).format(Number(amount));
   };
 
+  // For loading the correct color on the transactions. Based on their status
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {
       case 'COMPLETED': return 'bg-emerald-50 text-emerald-700 border-emerald-100';

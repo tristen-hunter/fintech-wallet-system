@@ -4,6 +4,7 @@ import { LayoutDashboard, Wallet, ArrowLeftRight, Settings } from "lucide-react"
 const Sidebar = () => {
   const location = useLocation();
 
+  // Defines the items displayed un the nav bar
   const navItems = [
     { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/" },
     { name: "Wallets", icon: <Wallet size={20} />, path: "/wallets" },

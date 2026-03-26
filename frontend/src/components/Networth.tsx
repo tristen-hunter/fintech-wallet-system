@@ -4,13 +4,16 @@ import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 
 const Networth = () => {
-    const totalNetworth = 12;
+    // const totalNetworth = 12;
   const percentageChange = 12.5;
   const mainCurrency = "USD";
 
+  // Holds the state of the totalNetworth and the User object of the currently logged in user
   const [totalNetWorth, setTotalNetWorth] = useState("");
   const { user } = useAuth();
 
+
+  // On mount this is called to retrieve a users networth (all wallet balances together in USD)
   useEffect(() => {
     const getUserNetworth = async () => {
         try {
@@ -27,6 +30,8 @@ const Networth = () => {
     getUserNetworth();
   }, [])
 
+
+  // Helps to display the currency better
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: 2,
