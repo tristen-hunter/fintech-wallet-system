@@ -1,14 +1,17 @@
 import { useLocation, Link } from "react-router-dom";
-import { LayoutDashboard, Wallet, ArrowLeftRight, Settings } from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowLeftRight, Settings, LogOut  } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = () => {
   const location = useLocation();
+  const { logoutUser } = useAuth();
 
   // Defines the items displayed un the nav bar
   const navItems = [
     { name: "Dashboard", icon: <LayoutDashboard size={20} />, path: "/" },
     { name: "Wallets", icon: <Wallet size={20} />, path: "/wallets" },
     { name: "Transactions", icon: <ArrowLeftRight size={20} />, path: "/transactions" },
+    // { name: "Logout", icon: <LogOut size={20} />, action: logoutUser }
   ];
 
   return (
@@ -39,6 +42,7 @@ const Sidebar = () => {
                   ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-100/50"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`}
+              onClick={item.name === "Logout" ? logoutUser : undefined}
             >
               <span className={isActive ? "text-blue-600" : "text-slate-400"}>
                 {item.icon}
@@ -51,7 +55,18 @@ const Sidebar = () => {
             </Link>
           );
         })}
+
+        {/* Separate Logout Button */}
+        <button 
+          onClick={logoutUser} 
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all w-full mt-2"
+        >
+          <span className="text-slate-400"><LogOut size={20} /></span>
+          Logout
+        </button>
       </nav>
+
+      
 
       {/* 3. Bottom Section: Support/Settings */}
       <div className="shrink-0 border-t border-slate-200 p-4">

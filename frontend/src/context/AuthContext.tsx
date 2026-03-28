@@ -43,9 +43,14 @@ export const AuthProvider = ({ children }: { children: ReactNode}) => {
     }
 
     // optionally implement a logout helper
-    const logoutUser = () => {
-        setUser(null);
-        // Need to call backend Auth to logout here too
+    const logoutUser = async() => {
+        try {
+            await api.post("/auth/logout"); // backend is called here
+        } catch (error) {
+            console.error("Logout failed", error);
+        } finally {
+            setUser(null);
+        }
     }
 
     return (
