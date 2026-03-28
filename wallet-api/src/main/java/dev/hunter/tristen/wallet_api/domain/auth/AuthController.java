@@ -7,7 +7,9 @@ import dev.hunter.tristen.wallet_api.domain.user.Users;
 import dev.hunter.tristen.wallet_api.domain.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.jspecify.annotations.NonNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -70,6 +72,15 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/me")
     public UserFetchDTO getCurrentUser(Authentication auth){
 
@@ -90,7 +101,6 @@ public class AuthController {
                 user.getCreatedAt()
         );
     }
-
 
     // Sign Up A User
     @PostMapping("/signup")
